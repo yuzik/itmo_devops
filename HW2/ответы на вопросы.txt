@@ -1,0 +1,19 @@
+1. Можно ли ограничивать ресурсы (например, память или CPU) для сервисов в docker-compose.yml? Если нет, то почему, если да, то как?
+- Можно, вот так
+ ```services:
+  service:
+    image: nginx
+    deploy:
+        resources:
+            limits:
+              cpus: 0.50
+              memory: 512M
+            reservations:
+              cpus: 0.25
+              memory: 128M```
+- Или так 
+```$ docker run --cpus=2 --cpu-shares=2000 nginx```
+2. Как можно запустить только определенный сервис из docker-compose.yml, не запуская остальные?
+- Так
+```$ docker-compose start db```
+Если в compose в текущей директории есть сервис именованный db
