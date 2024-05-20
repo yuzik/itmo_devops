@@ -1,0 +1,174 @@
+version: '3.1'
+services:
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+    env_file: # Pass environment variables to the service
+      - backend.env
+    networks:
+      - backend
+
+  postgres:
+    restart: always
+    image: postgres:14.0-alpine
+    ports:
+      - "5433:5432"
+    env_file:
+      - backend.env
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    networks:
+      - backend
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/var/lib/redis
+    networks:
+      - backend
+
+  rabbitmq:
+    restart: always
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "5673:5673"
+      - "15672:15672"
+    networks:
+      - backend
+
+  consumer_xlsx:
+    restart: always
+    build:
+      context: ./consumer-xlsx
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    ports:
+      - "8081:8081"
+    env_file:
+      - backend.env
+    networks:
+      - backend
+
+  jirascrapper:
+    image: ${DOCKER_REGISTRY-}jirascrapper
+    ports:
+      - "5001:443"
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5001
+      - Logging__Loglevel__Default=Debug 
+      - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    build:
+      context: ./DotnetServices
+      dockerfile: JiraScrapper/Dockerfile
+    networks:
+      - backend
+
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    ports:
+      - "5002:443"
+      - "8082:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5002
+      - Logging__Loglevel__Default=Debug 
+      - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    build:
+      context: ./DotnetServices
+      dockerfile: Gateway/Dockerfile
+    networks:
+      - backend
+
+  dataaccessservice:
+    image: ${DOCKER_REGISTRY-}dataaccessservice
+    volumes:
+      - ./DotnetServices/https/aspnetapp.pfx:/https/aspnetapp.pfx:ro
+    ports:
+      - "5003:443"
+      - "8083:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=5003
+      - Logging__Loglevel__Default=Debug 
+      - Logging__Loglevel__Microsoft.AspNetCore=Debug 
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    restart: always
+    build:
+      context: ./DotnetServices
+      dockerfile: DataAccessService/Dockerfile
+    networks:
+      - backend
+
+  cassandra-node1:
+    image: cassandra:latest
+    container_name: cassandra-node1
+    environment:
+      - CASSANDRA_CLUSTER_NAME=cassandra-cluster
+      - CASSANDRA_DATACENTER=datacenter1
+    restart: always
+    ports:
+      - "9042:9042"
+    networks:
+      - backend
+
+  cassandra-load-keyspace:
+      container_name: cassandra-load-keyspace
+      image: cassandra:latest
+      depends_on:
+        - cassandra-node1
+      volumes:
+        - ./DotnetServices/init-scripts/schema.cql:/schema.cql
+      ports:
+        - "9045:9045"
+      networks:
+       - backend
+      command: /bin/bash -c "echo service started && sleep 120 && echo loading cassandra keyspace && cqlsh cassandra-node1 -u cassandra -p cassandra -f /schema.cql && echo Cassandra successfully initialized"
+
+  telegram-service:
+    build:
+      context: ./telegram-service
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - rabbitmq
+    env_file: # Pass environment variables to the service
+      - backend.env
+    networks:
+      - backend
+
+
+volumes:
+  db-data:
+  redis-data:
+  cassandra-data:
+
+networks:
+  backend:
+  frontend:
