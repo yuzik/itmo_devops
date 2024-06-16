@@ -4,7 +4,8 @@
 ![minikube](https://github.com/yuzik/itmo_devops/assets/60525058/8969e42f-1cf9-4b81-a03d-87c95513851c)
 5. Создаем объекты через CLI. 3 объекта + 1 некстклайд
 ![created](https://github.com/yuzik/itmo_devops/assets/60525058/087188fe-33ee-4e49-b6d9-ac253446eee8)
-6. Прогнать манифесты, чтоб описанные объекты создались в кластере
+6. Прогнать манифесты, чтоб описанные объекты создались в кластере![works](https://github.com/yuzik/itmo_devops/assets/60525058/f763deb6-f866-4f7e-985f-b9c29c21e62b)
+
 ![run](https://github.com/yuzik/itmo_devops/assets/60525058/05a36254-d737-45ee-9e4c-99a5ae60d1ee)
 7. Проверить, что все ресурсы успешно создались
 ![getall](https://github.com/yuzik/itmo_devops/assets/60525058/b8c16a4c-a3c8-4789-85ab-4b7dafdb1aab)
@@ -21,7 +22,9 @@ UDP после проверки
 ![for_pg](https://github.com/yuzik/itmo_devops/assets/60525058/a0576248-00ca-4af8-aa7e-b2d159b7a468)
 12. Для некстклауда перенесены его переменные (NEXTCLOUD_UPDATE, ALLOW_EMPTY_PASSWORD и проч.) из деплоймента в конфигмапу nextcloud_configmap.yml
 
+13. Пробный запуск после правок. Работает!11!!!
 ![for_nextcloud_configmap](https://github.com/yuzik/itmo_devops/assets/60525058/c2723017-1dfd-403e-a603-53664a39ee41)
+
 * Вопросы
 Важен ли порядок выполнения этих манифестов? Почему?
 
