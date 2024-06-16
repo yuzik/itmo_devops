@@ -14,10 +14,13 @@
 UDP после проверки 
 
 9. Для некстклауда добавлены Liveness и Readiness пробы в самый конец nextcloud.yml
+   
 ![for_nextcloud](https://github.com/yuzik/itmo_devops/assets/60525058/ee5619a2-b0bf-44d7-aeb1-c459490f81c4)
-10. Для постгреса перенести POSTGRES_USER и POSTGRES_PASSWORD из конфигмапы в секреты pg_secrets.yml
+11. Для постгреса перенести POSTGRES_USER и POSTGRES_PASSWORD из конфигмапы в секреты pg_secrets.yml
+
 ![for_pg](https://github.com/yuzik/itmo_devops/assets/60525058/a0576248-00ca-4af8-aa7e-b2d159b7a468)
-11. Для некстклауда перенесены его переменные (NEXTCLOUD_UPDATE, ALLOW_EMPTY_PASSWORD и проч.) из деплоймента в конфигмапу nextcloud_configmap.yml
+12. Для некстклауда перенесены его переменные (NEXTCLOUD_UPDATE, ALLOW_EMPTY_PASSWORD и проч.) из деплоймента в конфигмапу nextcloud_configmap.yml
+
 ![for_nextcloud_configmap](https://github.com/yuzik/itmo_devops/assets/60525058/c2723017-1dfd-403e-a603-53664a39ee41)
 * Вопросы
 Важен ли порядок выполнения этих манифестов? Почему?
