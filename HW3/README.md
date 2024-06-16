@@ -6,8 +6,7 @@
 ![run](https://github.com/yuzik/itmo_devops/assets/60525058/c8beff93-586b-46f5-91ea-e0f4bcffbbc8)
 6. Создаем объекты через CLI. 3 объекта + 1 некстклайд
 ![created](https://github.com/yuzik/itmo_devops/assets/60525058/087188fe-33ee-4e49-b6d9-ac253446eee8)
-7. Прогнать манифесты, чтоб описанные объекты создались в кластере![works](https://github.com/yuzik/itmo_devops/assets/60525058/f763deb6-f866-4f7e-985f-b9c29c21e62b)
-
+7. Прогнать манифесты, чтоб описанные объекты создались в кластере!
 ![run](https://github.com/yuzik/itmo_devops/assets/60525058/05a36254-d737-45ee-9e4c-99a5ae60d1ee)
 7. Проверить, что все ресурсы успешно создались
 ![getall](https://github.com/yuzik/itmo_devops/assets/60525058/b8c16a4c-a3c8-4789-85ab-4b7dafdb1aab)
