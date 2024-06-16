@@ -23,7 +23,7 @@ UDP после проверки
 12. Для некстклауда перенесены его переменные (NEXTCLOUD_UPDATE, ALLOW_EMPTY_PASSWORD и проч.) из деплоймента в конфигмапу nextcloud_configmap.yml
 
 13. Пробный запуск после правок. Работает!11!!!
-![for_nextcloud_configmap](https://github.com/yuzik/itmo_devops/assets/60525058/c2723017-1dfd-403e-a603-53664a39ee41)
+![works](https://github.com/yuzik/itmo_devops/assets/60525058/ba193d2f-4bb6-45a3-8a5c-fccc3c8b9097)
 
 * Вопросы
 Важен ли порядок выполнения этих манифестов? Почему?
