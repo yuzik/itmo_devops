@@ -32,3 +32,7 @@
 - обязательно использование лейблов (помимо обязательных `selector/matchLabel`, конечно)
 лэйблы также в юпитере 
 ![labels](https://github.com/yuzik/itmo_devops/assets/60525058/d8af25a1-78a5-4d87-977f-46b0e3ddcbed)
+
+тест, что все работает:
+![works](https://github.com/yuzik/itmo_devops/assets/60525058/235a0968-7c7a-4a15-81fc-fb0cb0b4aa8f)
+морда грузится, вск ок
